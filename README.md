@@ -55,7 +55,7 @@ This project has two main parts:
 1. **Clone the project**
 
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/RitikTiwari7379/scatch_MERN_Project.git
    cd scatch_MERN_Project
    ```
 
