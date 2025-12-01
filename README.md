@@ -10,37 +10,6 @@ Building a production-ready e-commerce platform that handles:
 - Real-time inventory management
 - Scalable architecture for 100+ concurrent users
 
-## 🚀 Key Features
-
-### For Customers
-- 🔐 Secure JWT-based authentication
-- 🛍️ Browse 200+ products with advanced filtering
-- 🛒 Real-time shopping cart with price calculations
-- 💳 Secure Razorpay payment integration
-- 📱 Fully responsive design
-
-### For Sellers
-- 📊 Dedicated seller dashboard
-- ➕ Product management (Add/Edit/Delete)
-- 🎨 15+ configurable product attributes (color, design, pricing)
-- 💰 Discount management system
-- 📈 Order tracking
-
-## 🔧 Technical Architecture
-
-```
-Frontend (React)          Backend (Node.js)         Database (MongoDB)
-     |                          |                          |
-     |----API Requests--------->|                          |
-     |                          |----Query/Update--------->|
-     |<---JSON Response---------|<----Data----------------|
-     |                          |                          |
-     |                    Razorpay API
-     |                          |
-     |----Payment Request------->|
-     |<---Payment Verification---|
-```
-
 ## 💡 The Challenging Problem: Razorpay Payment Integration
 
 ### The Challenge
@@ -171,6 +140,37 @@ try {
 3. **Use database transactions** - Critical for maintaining data consistency
 4. **Test extensively** - Created 100+ test cases covering edge cases
 5. **User experience matters** - Clear error messages reduced support tickets by 60%
+
+## 🚀 Key Features
+
+### For Customers
+- 🔐 Secure JWT-based authentication
+- 🛍️ Browse 200+ products with advanced filtering
+- 🛒 Real-time shopping cart with price calculations
+- 💳 Secure Razorpay payment integration
+- 📱 Fully responsive design
+
+### For Sellers
+- 📊 Dedicated seller dashboard
+- ➕ Product management (Add/Edit/Delete)
+- 🎨 15+ configurable product attributes (color, design, pricing)
+- 💰 Discount management system
+- 📈 Order tracking
+
+## 🔧 Technical Architecture
+
+```
+Frontend (React)          Backend (Node.js)         Database (MongoDB)
+     |                          |                          |
+     |----API Requests--------->|                          |
+     |                          |----Query/Update--------->|
+     |<---JSON Response---------|<----Data----------------|
+     |                          |                          |
+     |                    Razorpay API
+     |                          |
+     |----Payment Request------->|
+     |<---Payment Verification---|
+```
 
 ## 🛠️ Tech Stack
 
