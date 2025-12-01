@@ -328,12 +328,6 @@ Contributions are welcome! Please open an issue or submit a pull request.
 - LinkedIn: [Ritik Tiwari](https://www.linkedin.com/in/ritik-tiwari-1a5399250/)
 - Email: ritikamethi7379@gmail.com
 
-## 🙏 Acknowledgments
-
-- Razorpay for excellent payment gateway documentation
-- VIT Bhopal for project support
-- Open source community for valuable feedback
-
 ---
 
 **⭐ If you found this project helpful, please give it a star!**
