@@ -25,7 +25,11 @@ const app = express();
 // Enable CORS for React frontend
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      process.env.CORS_ORIGIN,
+    ].filter(Boolean),
     credentials: true,
   })
 );
@@ -68,10 +72,10 @@ app.use(async function (req, res, next) {
 app.use(express.static(path.join(__dirname, "public")));
 
 // Serve React build files in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../Frontend-vite/dist")));
-  app.use(express.static(path.join(__dirname, "client/build"))); // Fallback
-}
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "../Frontend-vite/dist")));
+//   app.use(express.static(path.join(__dirname, "client/build"))); // Fallback
+// }
 
 // API routes
 app.use("/api", apiRouter);
@@ -82,22 +86,22 @@ app.use("/users", userRouter);
 app.use("/api/payments", paymentRouter);
 
 // Serve React app for all other routes in production
-if (process.env.NODE_ENV === "production") {
-  app.get(/(.*)/, (req, res) => {
-    const distPath = path.join(
-      __dirname,
-      "../Frontend-vite/dist",
-      "index.html"
-    );
-    const clientBuildPath = path.join(__dirname, "client/build", "index.html");
+// if (process.env.NODE_ENV === "production") {
+//   app.get(/(.*)/, (req, res) => {
+//     const distPath = path.join(
+//       __dirname,
+//       "../Frontend-vite/dist",
+//       "index.html"
+//     );
+//     const clientBuildPath = path.join(__dirname, "client/build", "index.html");
 
-    if (require("fs").existsSync(distPath)) {
-      res.sendFile(distPath);
-    } else {
-      res.sendFile(clientBuildPath);
-    }
-  });
-}
+//     if (require("fs").existsSync(distPath)) {
+//       res.sendFile(distPath);
+//     } else {
+//       res.sendFile(clientBuildPath);
+//     }
+//   });
+// }
 
 const port = process.env.PORT || 3001;
 
