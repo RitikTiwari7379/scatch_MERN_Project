@@ -31,8 +31,26 @@ router.get("/shop", async function (req, res) {
     req.get("Content-Type") === "application/json"
   ) {
     try {
-      let products = await productModel.find().populate("owner");
-      return res.json({ success: true, products });
+      let products = await productModel.find().populate("owner").lean();
+      const productsJSON = products.map((p) => {
+        if (p.image) {
+          let buffer;
+          if (Buffer.isBuffer(p.image)) {
+            buffer = p.image;
+          } else if (p.image.type === "Buffer" && Array.isArray(p.image.data)) {
+            buffer = Buffer.from(p.image.data);
+          } else if (p.image.buffer && Buffer.isBuffer(p.image.buffer)) {
+            // Handle MongoDB Binary object (from .lean())
+            buffer = p.image.buffer;
+          }
+          if (buffer) {
+            const mimeType = p.imageMimeType || "image/png";
+            p.image = `data:${mimeType};base64,${buffer.toString("base64")}`;
+          }
+        }
+        return p;
+      });
+      return res.json({ success: true, products: productsJSON });
     } catch (error) {
       return res.status(500).json({ error: "Failed to fetch products" });
     }
@@ -56,8 +74,6 @@ router.get("/cart", isLoggedIn, async function (req, res) {
     req.get("Content-Type") === "application/json"
   ) {
     try {
-      console.log("Fetching cart for user:", req.user.email);
-
       let user = await userModel.findOne({ email: req.user.email }).populate({
         path: "cart.product",
         populate: {
@@ -65,26 +81,14 @@ router.get("/cart", isLoggedIn, async function (req, res) {
         },
       });
 
-      console.log("User found:", user ? "Yes" : "No");
-
       // Ensure cart exists for legacy users
       if (!user.cart) {
-        console.log("Creating new cart for user");
         user.cart = [];
       }
-
-      console.log("Cart items count:", user.cart.length);
-
       let totalBill = 0;
       let platformFee = 20;
 
-      user.cart.forEach((item, index) => {
-        console.log(`Cart item ${index}:`, {
-          product: item.product ? item.product._id : "null",
-          quantity: item.quantity,
-          price: item.product ? item.product.price : "null",
-        });
-
+      user.cart.forEach((item) => {
         const price =
           item.product && item.product.price ? item.product.price : 0;
         const discount =
@@ -94,8 +98,6 @@ router.get("/cart", isLoggedIn, async function (req, res) {
       });
 
       const finalBill = totalBill + platformFee;
-
-      console.log("Cart calculation:", { totalBill, platformFee, finalBill });
 
       return res.json({
         success: true,
@@ -125,30 +127,22 @@ router.get("/cart", isLoggedIn, async function (req, res) {
 
 router.get("/addtocart/:productid", isLoggedIn, async function (req, res) {
   try {
-    console.log("Adding to cart - Product ID:", req.params.productid);
-    console.log("User:", req.user.email);
-
     let user = await userModel.findOne({ email: req.user.email });
-    console.log("User found:", user ? "Yes" : "No");
 
     // Ensure cart exists for legacy users
     if (!user.cart) {
-      console.log("Creating new cart for user");
       user.cart = [];
     }
 
-    // Check if product already exists in cart
     let existingCartItem = user.cart.find(
       (item) => item.product.toString() === req.params.productid
     );
 
     if (existingCartItem) {
       // Increment quantity if product already exists
-      console.log("Product exists in cart, incrementing quantity");
       existingCartItem.quantity += 1;
     } else {
       // Add new product to cart
-      console.log("Adding new product to cart");
       user.cart.push({
         product: req.params.productid,
         quantity: 1,
@@ -156,7 +150,6 @@ router.get("/addtocart/:productid", isLoggedIn, async function (req, res) {
     }
 
     await user.save();
-    console.log("Cart updated successfully");
 
     if (
       req.path.includes("/api/") ||
@@ -188,16 +181,11 @@ router.get("/addtocart/:productid", isLoggedIn, async function (req, res) {
 // Update cart item quantity
 router.post("/updatecart/:productid", isLoggedIn, async function (req, res) {
   try {
-    console.log("Updating cart - Product ID:", req.params.productid);
-    console.log("Action:", req.body.action);
-    console.log("User:", req.user.email);
-
     let user = await userModel.findOne({ email: req.user.email });
     let { action } = req.body; // 'increase' or 'decrease'
 
     // Ensure cart exists
     if (!user.cart) {
-      console.log("Cart not found for user");
       user.cart = [];
     }
 
@@ -206,33 +194,28 @@ router.post("/updatecart/:productid", isLoggedIn, async function (req, res) {
     );
 
     if (cartItem) {
-      console.log("Cart item found, current quantity:", cartItem.quantity);
       if (action === "increase") {
         cartItem.quantity += 1;
-        console.log("Increased quantity to:", cartItem.quantity);
       } else if (action === "decrease") {
         cartItem.quantity -= 1;
-        console.log("Decreased quantity to:", cartItem.quantity);
         if (cartItem.quantity <= 0) {
-          console.log("Removing item from cart");
           user.cart = user.cart.filter(
             (item) => item.product.toString() !== req.params.productid
           );
         }
       }
       await user.save();
-      console.log("Cart updated successfully");
-    } else {
-      console.log("Cart item not found");
-    }
-
-    if (
-      req.path.includes("/api/") ||
-      req.get("Content-Type") === "application/json" ||
-      req.xhr ||
-      req.accepts("json")
-    ) {
-      return res.json({ success: true, message: "Cart updated successfully" });
+      if (
+        req.path.includes("/api/") ||
+        req.get("Content-Type") === "application/json" ||
+        req.xhr ||
+        req.accepts("json")
+      ) {
+        return res.json({
+          success: true,
+          message: "Cart updated successfully",
+        });
+      }
     }
     res.redirect("/cart");
   } catch (error) {
@@ -253,25 +236,18 @@ router.post("/updatecart/:productid", isLoggedIn, async function (req, res) {
 // Remove item from cart
 router.get("/removefromcart/:productid", isLoggedIn, async function (req, res) {
   try {
-    console.log("Removing from cart - Product ID:", req.params.productid);
-    console.log("User:", req.user.email);
-
     let user = await userModel.findOne({ email: req.user.email });
 
     // Ensure cart exists
     if (!user.cart) {
-      console.log("Cart not found for user");
       user.cart = [];
     }
 
-    console.log("Cart before removal:", user.cart.length, "items");
     user.cart = user.cart.filter(
       (item) => item.product.toString() !== req.params.productid
     );
-    console.log("Cart after removal:", user.cart.length, "items");
 
     await user.save();
-    console.log("Cart updated successfully");
 
     if (
       req.path.includes("/api/") ||
@@ -279,15 +255,17 @@ router.get("/removefromcart/:productid", isLoggedIn, async function (req, res) {
       req.xhr ||
       req.accepts("json")
     ) {
-      return res.json({ success: true, message: "Item removed from cart" });
+      return res.json({ success: true, message: "Removed from Cart!" });
     }
-    req.flash("success", "Item removed from cart");
+    req.flash("success", "Removed from Cart!");
     res.redirect("/cart");
   } catch (error) {
     console.error("Remove from cart error:", error);
     if (
       req.path.includes("/api/") ||
-      req.get("Content-Type") === "application/json"
+      req.get("Content-Type") === "application/json" ||
+      req.xhr ||
+      req.accepts("json")
     ) {
       return res
         .status(500)

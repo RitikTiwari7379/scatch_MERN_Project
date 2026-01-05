@@ -1,23 +1,17 @@
 {
-  "name": "scratch",
+  "name": "scatch-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "client": "cd client && npm start",
-    "server": "nodemon app.js",
-    "build": "cd client && npm run build",
-    "heroku-postbuild": "cd client && npm install && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": ["e-commerce", "shopping", "nodejs", "express"],
+  "author": "Ritik Tiwari",
+  "license": "MIT",
+  "description": "Backend API for Scatch e-commerce platform",
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "config": "^4.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

@@ -1,10 +1,15 @@
 const express = require("express");
-const app = express();
-const expressSession = require("express-session");
-const flash = require("connect-flash");
 const cors = require("cors");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+// Models
+const userModel = require("./models/user-model");
+const ownerModel = require("./models/owner-model");
+
+// Routes
 const ownerRouter = require("./routes/ownerRouter");
 const productRouter = require("./routes/productRouter");
 const userRouter = require("./routes/userRouter");
@@ -12,20 +17,15 @@ const indexRouter = require("./routes/index");
 const paymentRouter = require("./routes/paymentRouter");
 const apiRouter = require("./routes/api");
 
-const bcrypt = require("bcrypt");
-const path = require("path");
+// Database connection
+require("./config/mongoose-connection");
 
-const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
-const userModel = require("./models/user-model");
-const ownerModel = require("./models/owner-model");
-
-const db = require("./config/mongoose-connection");
+const app = express();
 
 // Enable CORS for React frontend
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
     credentials: true,
   })
 );
@@ -33,7 +33,8 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-// Populate template locals from tokens if present so header can react to logged-in state
+
+// Populate template locals from tokens if present
 app.use(async function (req, res, next) {
   try {
     if (req.cookies && req.cookies.token) {
@@ -44,7 +45,7 @@ app.use(async function (req, res, next) {
       if (user) res.locals.user = user;
     }
   } catch (err) {
-    // ignore invalid user token
+    // Invalid user token
   }
 
   try {
@@ -59,24 +60,17 @@ app.use(async function (req, res, next) {
       if (owner) res.locals.owner = owner;
     }
   } catch (err) {
-    // ignore invalid owner token
+    // Invalid owner token
   }
 
   next();
 });
-app.use(
-  expressSession({
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.EXPRESS_SESSION_SECRET,
-  })
-);
-app.use(flash());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Serve React build files in production
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "client/build")));
+  app.use(express.static(path.join(__dirname, "../Frontend-vite/dist")));
+  app.use(express.static(path.join(__dirname, "client/build"))); // Fallback
 }
 
 // API routes
@@ -90,12 +84,23 @@ app.use("/api/payments", paymentRouter);
 // Serve React app for all other routes in production
 if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+    const distPath = path.join(
+      __dirname,
+      "../Frontend-vite/dist",
+      "index.html"
+    );
+    const clientBuildPath = path.join(__dirname, "client/build", "index.html");
+
+    if (require("fs").existsSync(distPath)) {
+      res.sendFile(distPath);
+    } else {
+      res.sendFile(clientBuildPath);
+    }
   });
 }
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 
-app.listen(port, function (req, res) {
-  console.log(`app is runnig on the server http://localhost:${port}`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });

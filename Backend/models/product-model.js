@@ -4,6 +4,8 @@ const productSchema = mongoose.Schema(
   {
     price: Number,
     image: Buffer,
+    imageFilename: String,
+    imageMimeType: String,
     name: String,
     discount: {
       type: Number,
@@ -29,9 +31,10 @@ const productSchema = mongoose.Schema(
 productSchema.set("toJSON", {
   virtuals: true,
   transform: function (doc, ret) {
-    // Convert image buffer to base64 string for frontend
+    // Convert image buffer to data URI for frontend
     if (ret.image && Buffer.isBuffer(ret.image)) {
-      ret.image = ret.image.toString("base64");
+      const mimeType = ret.imageMimeType || "image/png";
+      ret.image = `data:${mimeType};base64,${ret.image.toString("base64")}`;
     }
     return ret;
   },
@@ -40,9 +43,10 @@ productSchema.set("toJSON", {
 productSchema.set("toObject", {
   virtuals: true,
   transform: function (doc, ret) {
-    // Convert image buffer to base64 string
+    // Convert image buffer to data URI
     if (ret.image && Buffer.isBuffer(ret.image)) {
-      ret.image = ret.image.toString("base64");
+      const mimeType = ret.imageMimeType || "image/png";
+      ret.image = `data:${mimeType};base64,${ret.image.toString("base64")}`;
     }
     return ret;
   },

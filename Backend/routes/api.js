@@ -49,8 +49,27 @@ router.get("/auth/check", async (req, res) => {
 // Get all products for shop page
 router.get("/products", async (req, res) => {
   try {
-    const products = await productModel.find().populate("owner");
-    res.json({ success: true, products });
+    const products = await productModel.find().populate("owner").lean();
+    // Manually convert Buffer images to base64 data URIs
+    const productsJSON = products.map((p) => {
+      if (p.image) {
+        let buffer;
+        if (Buffer.isBuffer(p.image)) {
+          buffer = p.image;
+        } else if (p.image.type === "Buffer" && Array.isArray(p.image.data)) {
+          buffer = Buffer.from(p.image.data);
+        } else if (p.image.buffer && Buffer.isBuffer(p.image.buffer)) {
+          buffer = p.image.buffer;
+        }
+
+        if (buffer) {
+          const mimeType = p.imageMimeType || "image/png";
+          p.image = `data:${mimeType};base64,${buffer.toString("base64")}`;
+        }
+      }
+      return p;
+    });
+    res.json({ success: true, products: productsJSON });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch products" });
   }
@@ -65,8 +84,6 @@ router.get("/cart", isLoggedIn, async (req, res) => {
         path: "owner",
       },
     });
-
-    // Ensure cart exists for legacy users
     if (!user.cart) user.cart = [];
 
     // Filter out cart items with null/missing products
@@ -76,19 +93,44 @@ router.get("/cart", isLoggedIn, async (req, res) => {
 
     // Update user cart if we found invalid items
     if (validCartItems.length !== user.cart.length) {
-      console.log(
-        `Removing ${
-          user.cart.length - validCartItems.length
-        } invalid cart items for user ${user.email}`
-      );
       user.cart = validCartItems;
       await user.save();
     }
 
+    // Convert cart items to plain objects and handle images
+    const cartJSON = validCartItems.map((item) => {
+      const itemObj = item.toObject ? item.toObject() : item;
+      if (itemObj.product && itemObj.product.image) {
+        let buffer;
+        if (Buffer.isBuffer(itemObj.product.image)) {
+          buffer = itemObj.product.image;
+        } else if (
+          itemObj.product.image.type === "Buffer" &&
+          Array.isArray(itemObj.product.image.data)
+        ) {
+          buffer = Buffer.from(itemObj.product.image.data);
+        } else if (
+          itemObj.product.image.buffer &&
+          Buffer.isBuffer(itemObj.product.image.buffer)
+        ) {
+          // Handle MongoDB Binary object
+          buffer = itemObj.product.image.buffer;
+        }
+
+        if (buffer) {
+          const mimeType = itemObj.product.imageMimeType || "image/png";
+          itemObj.product.image = `data:${mimeType};base64,${buffer.toString(
+            "base64"
+          )}`;
+        }
+      }
+      return itemObj;
+    });
+
     let totalBill = 0;
     let platformFee = 20;
 
-    validCartItems.forEach((item) => {
+    cartJSON.forEach((item) => {
       const price = item.product && item.product.price ? item.product.price : 0;
       const discount =
         item.product && item.product.discount ? item.product.discount : 0;
@@ -100,7 +142,7 @@ router.get("/cart", isLoggedIn, async (req, res) => {
 
     res.json({
       success: true,
-      cart: validCartItems,
+      cart: cartJSON,
       totalBill,
       platformFee,
       finalBill,
@@ -115,8 +157,29 @@ router.get("/cart", isLoggedIn, async (req, res) => {
 router.get("/admin/products", isOwnerLoggedIn, async (req, res) => {
   try {
     const owner = await ownerModel.findOne({ email: req.owner.email });
-    const products = await productModel.find({ owner: owner._id });
-    res.json({ success: true, products, owner });
+    const products = await productModel.find({ owner: owner._id }).lean();
+
+    // Manually convert Buffer images to base64 data URIs
+    const productsJSON = products.map((p) => {
+      if (p.image) {
+        let buffer;
+        if (Buffer.isBuffer(p.image)) {
+          buffer = p.image;
+        } else if (p.image.type === "Buffer" && Array.isArray(p.image.data)) {
+          buffer = Buffer.from(p.image.data);
+        } else if (p.image.buffer && Buffer.isBuffer(p.image.buffer)) {
+          buffer = p.image.buffer;
+        }
+
+        if (buffer) {
+          const mimeType = p.imageMimeType || "image/png";
+          p.image = `data:${mimeType};base64,${buffer.toString("base64")}`;
+        }
+      }
+      return p;
+    });
+
+    res.json({ success: true, products: productsJSON, owner });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch admin products" });
   }

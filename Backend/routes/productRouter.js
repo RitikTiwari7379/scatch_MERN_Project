@@ -2,28 +2,7 @@ const express = require("express");
 const router = express.Router();
 const product = require("../config/multer-config");
 const productModel = require("../models/product-model");
-const ownerModel = require("../models/owner-model");
-const jwt = require("jsonwebtoken");
-
-// Middleware to check if owner is logged in
-const isOwnerLoggedIn = async (req, res, next) => {
-  if (!req.cookies.ownertoken) {
-    req.flash("error", "You need to login first");
-    return res.redirect("/owners/admin-auth");
-  }
-
-  try {
-    let decoded = jwt.verify(req.cookies.ownertoken, process.env.JWT_KEY);
-    let owner = await ownerModel
-      .findOne({ email: decoded.email })
-      .select("-password");
-    req.owner = owner;
-    next();
-  } catch (err) {
-    req.flash("error", "Please login again");
-    res.redirect("/owners/admin-auth");
-  }
-};
+const isOwnerLoggedIn = require("../middlewares/isOwnerLoggedIn");
 
 router.post(
   "/create",
@@ -31,14 +10,6 @@ router.post(
   product.single("image"),
   async function (req, res) {
     try {
-      console.log("=== POST /products/create ===");
-      console.log("Headers:", req.headers);
-      console.log("Accept header:", req.get("Accept"));
-      console.log("Content-Type:", req.get("Content-Type"));
-      console.log("Path:", req.path);
-      console.log("Creating product with data:", req.body);
-      console.log("Image file:", req.file ? "Present" : "Missing");
-
       let { price, name, discount, bgcolor, textcolor, panelcolor } = req.body;
 
       if (!req.file) {
@@ -55,6 +26,8 @@ router.post(
 
       let newProduct = await productModel.create({
         image: req.file.buffer,
+        imageFilename: req.file.originalname,
+        imageMimeType: req.file.mimetype,
         price: Number(price),
         name,
         discount: Number(discount) || 0,
@@ -63,8 +36,6 @@ router.post(
         panelcolor: panelcolor || "#ffffff",
         owner: req.owner._id,
       });
-
-      console.log("Product created successfully:", newProduct._id);
 
       if (
         req.path.includes("/api/") ||
@@ -182,6 +153,8 @@ router.put(
       // Only update image if a new one is uploaded
       if (req.file) {
         updateData.image = req.file.buffer;
+        updateData.imageFilename = req.file.originalname;
+        updateData.imageMimeType = req.file.mimetype;
       }
 
       let updatedProduct = await productModel.findOneAndUpdate(
