@@ -87,10 +87,14 @@ router.get("/admin-auth", function (req, res) {
     return res.redirect("http://localhost:3000/owners/admin-auth");
   }
 
-  // In production, this will be handled by the catch-all route in app.js
-  res
-    .status(404)
-    .send("React app not built. Please run npm run build in client directory.");
+  // In production, redirect to the deployed frontend
+  if (process.env.CORS_ORIGIN) {
+    return res.redirect(`${process.env.CORS_ORIGIN}/owners/admin-auth`);
+  }
+
+  res.json({
+    message: "Please access the Admin Auth page via the frontend application.",
+  });
 });
 
 // Admin login
@@ -113,7 +117,11 @@ router.post("/login", async (req, res) => {
     bcrypt.compare(password, owner.password, function (err, result) {
       if (result) {
         let token = generateToken(owner);
-        res.cookie("ownertoken", token);
+        res.cookie("ownertoken", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        });
 
         if (
           req.path.includes("/api/") ||
@@ -153,12 +161,12 @@ router.get("/logout", function (req, res) {
   res.clearCookie("ownertoken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   if (
@@ -211,12 +219,15 @@ router.get("/admin", async function (req, res) {
       return res.redirect("http://localhost:3000/owners/admin");
     }
 
-    // In production, this will be handled by the catch-all route in app.js
-    res
-      .status(404)
-      .send(
-        "React app not built. Please run npm run build in client directory."
-      );
+    // In production, redirect to the deployed frontend
+    if (process.env.CORS_ORIGIN) {
+      return res.redirect(`${process.env.CORS_ORIGIN}/owners/admin`);
+    }
+
+    res.json({
+      message:
+        "Please access the Admin Dashboard via the frontend application.",
+    });
   } catch (err) {
     if (
       req.path.includes("/api/") ||

@@ -104,12 +104,17 @@ router.get("/edit/:id", isOwnerLoggedIn, async function (req, res) {
       );
     }
 
-    // In production, this will be handled by the catch-all route in app.js
-    res
-      .status(404)
-      .send(
-        "React app not built. Please run npm run build in client directory."
+    // In production, redirect to the deployed frontend
+    if (process.env.CORS_ORIGIN) {
+      return res.redirect(
+        `${process.env.CORS_ORIGIN}/products/edit/${req.params.id}`
       );
+    }
+
+    res.json({
+      message:
+        "Please access the Product Edit page via the frontend application.",
+    });
   } catch (err) {
     if (
       req.path.includes("/api/") ||

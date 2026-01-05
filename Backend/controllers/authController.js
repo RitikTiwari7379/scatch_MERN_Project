@@ -38,7 +38,11 @@ module.exports.registerUser = async function (req, res) {
           });
 
           let token = generateToken(user);
-          res.cookie("token", token);
+          res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          });
 
           if (
             req.path.includes("/api/") ||
@@ -81,7 +85,11 @@ module.exports.loginUser = async (req, res) => {
   bcrypt.compare(password, user.password, function (err, result) {
     if (result) {
       let token = generateToken(user);
-      res.cookie("token", token);
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      });
 
       if (
         req.path.includes("/api/") ||
@@ -107,12 +115,12 @@ module.exports.logOut = function (req, res) {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
   res.clearCookie("ownertoken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   if (

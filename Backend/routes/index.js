@@ -18,10 +18,15 @@ router.get("/", function (req, res) {
     return res.redirect("http://localhost:3000");
   }
 
-  // In production, this will be handled by the catch-all route in app.js
-  res
-    .status(404)
-    .send("React app not built. Please run npm run build in client directory.");
+  // In production, redirect to the deployed frontend
+  if (process.env.CORS_ORIGIN) {
+    return res.redirect(process.env.CORS_ORIGIN);
+  }
+
+  res.json({
+    message:
+      "Scatch API is running. Please access via the frontend application.",
+  });
 });
 
 router.get("/shop", async function (req, res) {
@@ -61,10 +66,14 @@ router.get("/shop", async function (req, res) {
     return res.redirect("http://localhost:3000/shop");
   }
 
-  // In production, this will be handled by the catch-all route in app.js
-  res
-    .status(404)
-    .send("React app not built. Please run npm run build in client directory.");
+  // In production, redirect to the deployed frontend
+  if (process.env.CORS_ORIGIN) {
+    return res.redirect(`${process.env.CORS_ORIGIN}/shop`);
+  }
+
+  res.json({
+    message: "Please access the Shop page via the frontend application.",
+  });
 });
 
 router.get("/cart", isLoggedIn, async function (req, res) {
@@ -119,10 +128,14 @@ router.get("/cart", isLoggedIn, async function (req, res) {
     return res.redirect("http://localhost:3000/cart");
   }
 
-  // In production, this will be handled by the catch-all route in app.js
-  res
-    .status(404)
-    .send("React app not built. Please run npm run build in client directory.");
+  // In production, redirect to the deployed frontend
+  if (process.env.CORS_ORIGIN) {
+    return res.redirect(`${process.env.CORS_ORIGIN}/cart`);
+  }
+
+  res.json({
+    message: "Please access the Cart page via the frontend application.",
+  });
 });
 
 router.get("/addtocart/:productid", isLoggedIn, async function (req, res) {
