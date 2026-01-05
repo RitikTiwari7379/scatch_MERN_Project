@@ -15,9 +15,7 @@ const Cart = () => {
 
   const fetchCart = async () => {
     try {
-      console.log("Fetching cart data...");
       const response = await axios.get("/api/cart");
-      console.log("Cart response:", response.data);
       setCartData(response.data);
     } catch (error) {
       console.error("Error fetching cart:", error);
@@ -37,9 +35,7 @@ const Cart = () => {
 
   const updateCart = async (productId, action) => {
     try {
-      console.log("Updating cart - Product ID:", productId, "Action:", action);
       const response = await axios.post(`/updatecart/${productId}`, { action });
-      console.log("Cart update response:", response.data);
       if (response.data && response.data.success) {
         fetchCart(); // Refresh cart data
       } else {
@@ -61,9 +57,11 @@ const Cart = () => {
       try {
         console.log("Removing from cart - Product ID:", productId);
         const response = await axios.get(`/removefromcart/${productId}`);
-        console.log("Remove response:", response.data);
+
         if (response.data && response.data.success) {
-          fetchCart(); // Refresh cart data
+          fetchCart();
+          setSuccess("Item removed from cart");
+          setTimeout(() => setSuccess(""), 3000);
         } else {
           setError(response.data?.error || "Failed to remove item");
           setTimeout(() => setError(""), 5000);
@@ -111,7 +109,6 @@ const Cart = () => {
           createOrderResponse.data.error || "Failed to create order"
         );
       }
-
       const { order, key } = createOrderResponse.data;
 
       // Razorpay checkout options
@@ -179,7 +176,6 @@ const Cart = () => {
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (error) {
-      console.error("Payment initiation failed:", error);
       setError(
         "Failed to initiate payment: " +
           (error.response?.data?.error || error.message)

@@ -73,18 +73,14 @@ const AdminDashboard = () => {
     setError("");
     setSuccess("");
 
-    console.log("Creating product with data:", newProduct);
-
     const formData = new FormData();
     Object.keys(newProduct).forEach((key) => {
       if (newProduct[key] !== null) {
         formData.append(key, newProduct[key]);
-        console.log(`FormData ${key}:`, newProduct[key]);
       }
     });
 
     try {
-      console.log("Sending request to /products/create");
       const response = await axios.post("/products/create", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -92,7 +88,6 @@ const AdminDashboard = () => {
         },
       });
 
-      console.log("Create response:", response.data);
       if (response.data && response.data.success) {
         setSuccess("Product created successfully!");
         setTimeout(() => setSuccess(""), 3000);
@@ -114,8 +109,6 @@ const AdminDashboard = () => {
         setTimeout(() => setError(""), 5000);
       }
     } catch (error) {
-      console.error("Create product error:", error);
-      console.error("Error response:", error.response);
       const errorMessage =
         error.response?.data?.error ||
         error.message ||
@@ -688,11 +681,13 @@ const AdminDashboard = () => {
                           src={product.image || "/images/image 80.png"}
                           alt={product.name || "Product"}
                           onError={(e) => {
-                            console.log(
+                            console.error(
                               "Image load error for product:",
                               product._id,
-                              "Image:",
-                              product.image
+                              "\nFilename:",
+                              product.imageFilename,
+                              "\nImage type:",
+                              typeof product.image
                             );
                             e.target.src = "/images/image 80.png";
                           }}

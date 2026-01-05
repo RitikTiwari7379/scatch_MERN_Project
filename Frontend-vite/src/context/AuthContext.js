@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }) => {
         setOwner(response.data.owner);
       }
     } catch (error) {
-      console.log("No active session");
       // Clear any stale cookies if auth check fails
       clearAllCookies();
       setUser(null);

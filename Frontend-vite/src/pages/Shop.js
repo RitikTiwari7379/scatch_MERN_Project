@@ -26,14 +26,12 @@ const Shop = () => {
 
   const addToCart = async (productId) => {
     try {
-      console.log("Adding to cart - Product ID:", productId);
       const response = await axios.get(`/addtocart/${productId}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
       });
-      console.log("Add to cart response:", response.data);
       if (response.data && response.data.success) {
         showNotification("Product added to cart!", "success");
       } else {
@@ -227,12 +225,6 @@ const Shop = () => {
                       src={product.image || "/images/image 80.png"}
                       alt={product.name || "Product"}
                       onError={(e) => {
-                        console.log(
-                          "Image load error for product:",
-                          product._id,
-                          "Image:",
-                          product.image
-                        );
                         e.target.src = "/images/image 80.png";
                       }}
                     />

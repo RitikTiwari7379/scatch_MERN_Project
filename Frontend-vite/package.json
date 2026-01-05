@@ -1,13 +1,13 @@
 {
-  "name": "scatch-client-vite",
+  "name": "scatch-frontend",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Frontend client for Scatch e-commerce platform",
   "scripts": {
     "dev": "vite",
     "start": "vite",
     "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {

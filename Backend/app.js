@@ -83,7 +83,7 @@ app.use("/api/payments", paymentRouter);
 
 // Serve React app for all other routes in production
 if (process.env.NODE_ENV === "production") {
-  app.get("*", (req, res) => {
+  app.get(/(.*)/, (req, res) => {
     const distPath = path.join(
       __dirname,
       "../Frontend-vite/dist",
