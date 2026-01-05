@@ -23,28 +23,34 @@ require("./config/mongoose-connection");
 const app = express();
 
 // Enable CORS for React frontend
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://scatch-mern-project.vercel.app",
+  process.env.CORS_ORIGIN,
+].filter(Boolean);
+
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = [
-      "http://localhost:3000",
-      "http://localhost:5173",
-      process.env.CORS_ORIGIN,
-    ].filter(Boolean);
-
+    console.log("Request from origin:", origin);
+    console.log("Allowed origins:", allowedOrigins);
+    
     // Allow requests with no origin (like mobile apps or Postman)
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      console.error("Origin not allowed:", origin);
+      callback(null, false);
     }
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
   exposedHeaders: ["Set-Cookie"],
   optionsSuccessStatus: 200,
+  preflightContinue: false,
 };
 
 app.use(cors(corsOptions));
