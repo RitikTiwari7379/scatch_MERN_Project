@@ -276,61 +276,61 @@ const AdminDashboard = () => {
       <Header pageLabel="Admin Dashboard" />
 
       {success && (
-        <div className="fixed top-5 right-5 p-4 rounded-lg bg-green-500 text-white z-50">
+        <div className="fixed top-5 right-5 left-5 sm:left-auto p-3 sm:p-4 rounded-lg bg-green-500 text-white z-50 text-sm sm:text-base text-center sm:text-left max-w-md">
           {success}
         </div>
       )}
 
       {error && (
-        <div className="fixed top-5 right-5 p-4 rounded-lg bg-red-500 text-white z-50">
+        <div className="fixed top-5 right-5 left-5 sm:left-auto p-3 sm:p-4 rounded-lg bg-red-500 text-white z-50 text-sm sm:text-base text-center sm:text-left max-w-md">
           {error}
         </div>
       )}
 
       <div className="min-h-screen bg-gray-50">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 lg:p-8">
           {/* Enhanced Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-7">
-            <div className="bg-white/70 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white/50 group hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-6 lg:mb-7">
+            <div className="bg-white/70 backdrop-blur-sm p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 group hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center">
-                <div className="p-4 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl shadow-lg">
-                  <i className="ri-product-hunt-line text-3xl text-white"></i>
+                <div className="p-3 sm:p-4 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl sm:rounded-2xl shadow-lg">
+                  <i className="ri-product-hunt-line text-2xl sm:text-3xl text-white"></i>
                 </div>
-                <div className="ml-6">
-                  <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">
+                <div className="ml-4 sm:ml-6">
+                  <h3 className="text-xs sm:text-sm font-bold text-gray-600 uppercase tracking-wide">
                     Total Products
                   </h3>
-                  <p className="text-3xl font-bold text-gray-900 mt-1">
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
                     {products.length}
                   </p>
                 </div>
               </div>
             </div>
-            <div className="bg-white/70 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white/50 group hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-white/70 backdrop-blur-sm p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 group hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center">
-                <div className="p-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl shadow-lg">
-                  <i className="ri-money-dollar-circle-line text-3xl text-white"></i>
+                <div className="p-3 sm:p-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl sm:rounded-2xl shadow-lg">
+                  <i className="ri-money-dollar-circle-line text-2xl sm:text-3xl text-white"></i>
                 </div>
-                <div className="ml-6">
-                  <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">
+                <div className="ml-4 sm:ml-6">
+                  <h3 className="text-xs sm:text-sm font-bold text-gray-600 uppercase tracking-wide">
                     Revenue
                   </h3>
-                  <p className="text-3xl font-bold text-gray-900 mt-1">
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
                     ₹{totalRevenue}
                   </p>
                 </div>
               </div>
             </div>
-            <div className="bg-white/70 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white/50 group hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-white/70 backdrop-blur-sm p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 group hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center">
-                <div className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl shadow-lg">
-                  <i className="ri-shopping-cart-line text-3xl text-white"></i>
+                <div className="p-3 sm:p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl sm:rounded-2xl shadow-lg">
+                  <i className="ri-shopping-cart-line text-2xl sm:text-3xl text-white"></i>
                 </div>
-                <div className="ml-6">
-                  <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">
+                <div className="ml-4 sm:ml-6">
+                  <h3 className="text-xs sm:text-sm font-bold text-gray-600 uppercase tracking-wide">
                     Active Products
                   </h3>
-                  <p className="text-3xl font-bold text-gray-900 mt-1">
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
                     {products.length}
                   </p>
                 </div>
@@ -340,30 +340,30 @@ const AdminDashboard = () => {
 
           {/* Enhanced Edit Product Form */}
           {editingProduct && (
-            <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 p-8 mb-10">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center">
-                    <i className="ri-edit-line text-xl text-white"></i>
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 lg:mb-10">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <i className="ri-edit-line text-lg sm:text-xl text-white"></i>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-800">
-                    Edit Product: {editingProduct.name}
+                  <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 break-words">
+                    Edit: {editingProduct.name}
                   </h2>
                 </div>
                 <button
                   onClick={cancelEdit}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm sm:text-base"
                 >
                   <i className="ri-arrow-left-line"></i>
-                  <span>Back to Dashboard</span>
+                  <span>Back</span>
                 </button>
               </div>
               <form
                 onSubmit={handleEditProduct}
-                className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8"
               >
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Product Name
                   </label>
                   <input
@@ -373,11 +373,11 @@ const AdminDashboard = () => {
                       setEditProduct({ ...editProduct, name: e.target.value })
                     }
                     required
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Price (₹)
                   </label>
                   <input
@@ -387,11 +387,11 @@ const AdminDashboard = () => {
                       setEditProduct({ ...editProduct, price: e.target.value })
                     }
                     required
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Discount (₹)
                   </label>
                   <input
@@ -403,11 +403,11 @@ const AdminDashboard = () => {
                         discount: e.target.value,
                       })
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     New Product Image (optional)
                   </label>
                   <input
@@ -419,14 +419,14 @@ const AdminDashboard = () => {
                         image: e.target.files[0],
                       })
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
                   />
-                  <p className="text-sm text-gray-500 mt-2">
+                  <p className="text-xs sm:text-sm text-gray-500 mt-2">
                     Leave empty to keep current image
                   </p>
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Background Color
                   </label>
                   <input
@@ -438,11 +438,11 @@ const AdminDashboard = () => {
                         bgcolor: e.target.value,
                       })
                     }
-                    className="w-full h-12 border-2 border-gray-200 rounded-2xl shadow-lg"
+                    className="w-full h-10 sm:h-12 border-2 border-gray-200 rounded-xl sm:rounded-2xl shadow-lg"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Text Color
                   </label>
                   <input
@@ -454,11 +454,11 @@ const AdminDashboard = () => {
                         textcolor: e.target.value,
                       })
                     }
-                    className="w-full h-12 border-2 border-gray-200 rounded-2xl shadow-lg"
+                    className="w-full h-10 sm:h-12 border-2 border-gray-200 rounded-xl sm:rounded-2xl shadow-lg"
                   />
                 </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                <div className="lg:col-span-2">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Panel Color
                   </label>
                   <input
@@ -470,24 +470,24 @@ const AdminDashboard = () => {
                         panelcolor: e.target.value,
                       })
                     }
-                    className="w-full h-12 border-2 border-gray-200 rounded-2xl shadow-lg"
+                    className="w-full h-10 sm:h-12 border-2 border-gray-200 rounded-xl sm:rounded-2xl shadow-lg"
                   />
                 </div>
-                <div className="md:col-span-2 flex gap-6">
+                <div className="lg:col-span-2 flex flex-col sm:flex-row gap-3 sm:gap-6">
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-8 py-4 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600 text-white font-bold rounded-2xl hover:from-blue-600 hover:via-indigo-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full sm:flex-1 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600 text-white font-bold rounded-xl sm:rounded-2xl hover:from-blue-600 hover:via-indigo-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center gap-2 sm:gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <i className="ri-save-line text-lg"></i>
+                    <i className="ri-save-line text-base sm:text-lg"></i>
                     {loading ? "Updating..." : "Update Product"}
                   </button>
                   <button
                     type="button"
                     onClick={cancelEdit}
-                    className="px-8 py-4 bg-gray-300/80 backdrop-blur-sm text-gray-700 font-bold rounded-2xl hover:bg-gray-400/80 transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center gap-3"
+                    className="w-full sm:flex-1 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base bg-gray-300/80 backdrop-blur-sm text-gray-700 font-bold rounded-xl sm:rounded-2xl hover:bg-gray-400/80 transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center gap-2 sm:gap-3"
                   >
-                    <i className="ri-close-line text-lg"></i>
+                    <i className="ri-close-line text-base sm:text-lg"></i>
                     Cancel
                   </button>
                 </div>
@@ -497,30 +497,30 @@ const AdminDashboard = () => {
 
           {/* Enhanced Create Product Form */}
           {showCreateForm && (
-            <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 p-8 mb-10">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center">
-                    <i className="ri-add-line text-xl text-white"></i>
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 lg:mb-10">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <i className="ri-add-line text-lg sm:text-xl text-white"></i>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-800">
+                  <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
                     Create New Product
                   </h2>
                 </div>
                 <button
                   onClick={toggleCreateForm}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm sm:text-base"
                 >
                   <i className="ri-arrow-left-line"></i>
-                  <span>Back to Dashboard</span>
+                  <span>Back</span>
                 </button>
               </div>
               <form
                 onSubmit={handleCreateProduct}
-                className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8"
               >
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Product Name
                   </label>
                   <input
@@ -530,11 +530,11 @@ const AdminDashboard = () => {
                       setNewProduct({ ...newProduct, name: e.target.value })
                     }
                     required
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-200 focus:border-indigo-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:ring-4 focus:ring-indigo-200 focus:border-indigo-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Price (₹)
                   </label>
                   <input
@@ -544,11 +544,11 @@ const AdminDashboard = () => {
                       setNewProduct({ ...newProduct, price: e.target.value })
                     }
                     required
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-200 focus:border-indigo-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:ring-4 focus:ring-indigo-200 focus:border-indigo-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Discount (₹)
                   </label>
                   <input
@@ -557,11 +557,11 @@ const AdminDashboard = () => {
                     onChange={(e) =>
                       setNewProduct({ ...newProduct, discount: e.target.value })
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-200 focus:border-indigo-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:ring-4 focus:ring-indigo-200 focus:border-indigo-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Product Image
                   </label>
                   <input
@@ -571,11 +571,11 @@ const AdminDashboard = () => {
                       setNewProduct({ ...newProduct, image: e.target.files[0] })
                     }
                     required
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-200 focus:border-indigo-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:ring-4 focus:ring-indigo-200 focus:border-indigo-500 transition-all duration-300 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Background Color
                   </label>
                   <input
@@ -584,11 +584,11 @@ const AdminDashboard = () => {
                     onChange={(e) =>
                       setNewProduct({ ...newProduct, bgcolor: e.target.value })
                     }
-                    className="w-full h-12 border-2 border-gray-200 rounded-2xl shadow-lg"
+                    className="w-full h-10 sm:h-12 border-2 border-gray-200 rounded-xl sm:rounded-2xl shadow-lg"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Text Color
                   </label>
                   <input
@@ -600,11 +600,11 @@ const AdminDashboard = () => {
                         textcolor: e.target.value,
                       })
                     }
-                    className="w-full h-12 border-2 border-gray-200 rounded-2xl shadow-lg"
+                    className="w-full h-10 sm:h-12 border-2 border-gray-200 rounded-xl sm:rounded-2xl shadow-lg"
                   />
                 </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">
+                <div className="lg:col-span-2">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2 sm:mb-3 uppercase tracking-wide">
                     Panel Color
                   </label>
                   <input
@@ -616,24 +616,24 @@ const AdminDashboard = () => {
                         panelcolor: e.target.value,
                       })
                     }
-                    className="w-full h-12 border-2 border-gray-200 rounded-2xl shadow-lg"
+                    className="w-full h-10 sm:h-12 border-2 border-gray-200 rounded-xl sm:rounded-2xl shadow-lg"
                   />
                 </div>
-                <div className="md:col-span-2 flex gap-6">
+                <div className="lg:col-span-2 flex flex-col sm:flex-row gap-3 sm:gap-6">
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-8 py-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 text-white font-bold rounded-2xl hover:from-indigo-600 hover:via-purple-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full sm:flex-1 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 text-white font-bold rounded-xl sm:rounded-2xl hover:from-indigo-600 hover:via-purple-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center gap-2 sm:gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <i className="ri-add-line text-lg"></i>
+                    <i className="ri-add-line text-base sm:text-lg"></i>
                     {loading ? "Creating..." : "Create Product"}
                   </button>
                   <button
                     type="button"
                     onClick={toggleCreateForm}
-                    className="px-8 py-4 bg-gray-300/80 backdrop-blur-sm text-gray-700 font-bold rounded-2xl hover:bg-gray-400/80 transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center gap-3"
+                    className="w-full sm:flex-1 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base bg-gray-300/80 backdrop-blur-sm text-gray-700 font-bold rounded-xl sm:rounded-2xl hover:bg-gray-400/80 transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center gap-2 sm:gap-3"
                   >
-                    <i className="ri-close-line text-lg"></i>
+                    <i className="ri-close-line text-base sm:text-lg"></i>
                     Cancel
                   </button>
                 </div>
@@ -643,20 +643,20 @@ const AdminDashboard = () => {
 
           {/* Enhanced Products Grid */}
           {!showCreateForm && !editingProduct && (
-            <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50">
-              <div className="p-8 border-b border-gray-200/50">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
-                      <i className="ri-product-hunt-line text-xl text-white"></i>
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50">
+              <div className="p-4 sm:p-6 lg:p-8 border-b border-gray-200/50">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+                      <i className="ri-product-hunt-line text-lg sm:text-xl text-white"></i>
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-800">
+                    <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
                       Your Products
                     </h2>
                   </div>
                   <button
                     onClick={toggleCreateForm}
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm sm:text-base"
                   >
                     <i className="ri-add-line"></i>
                     <span>Add New Product</span>
@@ -665,19 +665,19 @@ const AdminDashboard = () => {
               </div>
 
               {products.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 p-4 sm:p-6 lg:p-8">
                   {products.map((product) => (
                     <div
                       key={product._id}
-                      className="group rounded-3xl shadow-2xl border border-white/50 overflow-hidden transition-all duration-500 transform hover:-translate-y-2 hover:shadow-3xl"
+                      className="group rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 overflow-hidden transition-all duration-500 transform hover:-translate-y-2 hover:shadow-3xl"
                       style={{ background: product.panelcolor || "#ffffff" }}
                     >
                       <div
-                        className="h-52 flex items-center justify-center border-b border-gray-200/50 overflow-hidden"
+                        className="h-40 sm:h-48 lg:h-52 flex items-center justify-center border-b border-gray-200/50 overflow-hidden"
                         style={{ background: product.bgcolor || "#f3f4f6" }}
                       >
                         <img
-                          className="h-44 w-auto object-contain transition-transform duration-500 group-hover:scale-110"
+                          className="h-32 sm:h-40 lg:h-44 w-auto object-contain transition-transform duration-500 group-hover:scale-110"
                           src={product.image || "/images/image 80.png"}
                           alt={product.name || "Product"}
                           onError={(e) => {
@@ -694,34 +694,36 @@ const AdminDashboard = () => {
                         />
                       </div>
                       <div
-                        className="p-6"
+                        className="p-4 sm:p-5 lg:p-6"
                         style={{ color: product.textcolor || "#374151" }}
                       >
-                        <h3 className="font-bold text-xl mb-3 group-hover:text-indigo-600 transition-colors duration-300">
+                        <h3 className="font-bold text-base sm:text-lg lg:text-xl mb-2 sm:mb-3 group-hover:text-indigo-600 transition-colors duration-300 line-clamp-2">
                           {product.name}
                         </h3>
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="text-2xl font-bold">
+                        <div className="flex items-center justify-between mb-3 sm:mb-4">
+                          <span className="text-xl sm:text-2xl font-bold">
                             ₹{product.price}
                           </span>
                           {product.discount > 0 && (
-                            <span className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg">
+                            <span className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg">
                               -₹{product.discount}
                             </span>
                           )}
                         </div>
-                        <div className="flex gap-3">
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                           <button
                             onClick={() => startEditProduct(product)}
-                            className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-center rounded-2xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 font-bold shadow-lg flex items-center justify-center gap-2"
+                            className="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-center rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 font-bold shadow-lg flex items-center justify-center gap-2"
                           >
-                            <i className="ri-edit-line"></i>Edit
+                            <i className="ri-edit-line text-sm sm:text-base"></i>
+                            Edit
                           </button>
                           <button
                             onClick={() => handleDeleteProduct(product._id)}
-                            className="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white text-center rounded-2xl hover:from-red-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 font-bold shadow-lg flex items-center justify-center gap-2"
+                            className="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-red-500 to-pink-500 text-white text-center rounded-xl sm:rounded-2xl hover:from-red-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 font-bold shadow-lg flex items-center justify-center gap-2"
                           >
-                            <i className="ri-delete-bin-line"></i>Delete
+                            <i className="ri-delete-bin-line text-sm sm:text-base"></i>
+                            Delete
                           </button>
                         </div>
                       </div>
@@ -729,17 +731,17 @@ const AdminDashboard = () => {
                   ))}
                 </div>
               ) : (
-                <div className="p-12 text-center">
-                  <i className="ri-product-hunt-line text-6xl text-gray-300 mb-4"></i>
-                  <h3 className="text-xl text-gray-600 mb-2">
+                <div className="p-8 sm:p-12 text-center">
+                  <i className="ri-product-hunt-line text-5xl sm:text-6xl text-gray-300 mb-4"></i>
+                  <h3 className="text-lg sm:text-xl text-gray-600 mb-2">
                     No products yet
                   </h3>
-                  <p className="text-gray-500 mb-4">
+                  <p className="text-sm sm:text-base text-gray-500 mb-4">
                     Start by creating your first product
                   </p>
                   <button
                     onClick={toggleCreateForm}
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-4 sm:px-6 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                   >
                     Create First Product
                   </button>

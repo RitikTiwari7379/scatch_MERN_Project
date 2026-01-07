@@ -26,7 +26,8 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
-  "https://scatch-mern-project.vercel.app",
+  "http://localhost:5174",
+  process.env.FRONTEND_URL,
   process.env.CORS_ORIGIN,
 ].filter(Boolean);
 
@@ -34,20 +35,31 @@ const corsOptions = {
   origin: function (origin, callback) {
     console.log("Request from origin:", origin);
     console.log("Allowed origins:", allowedOrigins);
-    
+
     // Allow requests with no origin (like mobile apps or Postman)
     if (!origin) return callback(null, true);
 
+    // Check if origin matches allowed origins exactly
     if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.error("Origin not allowed:", origin);
-      callback(null, false);
+      return callback(null, true);
     }
+
+    // Check if origin is a Vercel deployment (supports preview deployments)
+    if (origin && origin.match(/^https:\/\/.*\.vercel\.app$/)) {
+      return callback(null, true);
+    }
+
+    console.error("Origin not allowed:", origin);
+    callback(null, false);
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+  ],
   exposedHeaders: ["Set-Cookie"],
   optionsSuccessStatus: 200,
   preflightContinue: false,
@@ -91,6 +103,15 @@ app.use(async function (req, res, next) {
   next();
 });
 app.use(express.static(path.join(__dirname, "public")));
+
+// Health check endpoint for Render
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    message: "Server is running",
+    timestamp: new Date().toISOString(),
+  });
+});
 
 // Serve React build files in production
 // if (process.env.NODE_ENV === "production") {

@@ -23,3 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.env.local
+.env.production
+DEPLOYMENT_CHECKLIST.md
+DEPLOYMENT_GUIDE.md
+PROJECT_README.md
+QUICK_START.md
+
